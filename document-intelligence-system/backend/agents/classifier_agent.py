@@ -4,14 +4,20 @@ import json
 
 from groq import Groq
 
-from config.settings import GROQ_API_KEY
+_client = None
 
-client = Groq(
-    api_key=GROQ_API_KEY
-)
+def get_groq_client():
+    global _client
+    if _client is None:
+        from config.settings import GROQ_API_KEY
+        if not GROQ_API_KEY:
+            raise ValueError("GROQ_API_KEY environment variable is not set")
+        _client = Groq(api_key=GROQ_API_KEY)
+    return _client
 
 
 def classify_document(text):
+    client = get_groq_client()
 
     text = text[:5000]
 

@@ -1,16 +1,23 @@
 from groq import Groq
-
 from rag.retrieval import retrieve_context
-from config.settings import GROQ_API_KEY
 
-client = Groq(
-    api_key=GROQ_API_KEY
-)
+_client = None
+
+def get_groq_client():
+    global _client
+    if _client is None:
+        from config.settings import GROQ_API_KEY
+        if not GROQ_API_KEY:
+            raise ValueError("GROQ_API_KEY environment variable is not set")
+        _client = Groq(api_key=GROQ_API_KEY)
+    return _client
+
 
 def answer_question(
     question,
     document_id
 ):
+    client = get_groq_client()
 
     chunks = retrieve_context(
     question,
