@@ -7,13 +7,21 @@ from routes.document_routes import router as document_router
 from routes.dashboard_routes import router as dashboard_router
 from routes.chat_routes import router as chat_router
 
+import os
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+origins = [
+    "http://localhost:5173",
+    FRONTEND_URL
+]
+
 app = FastAPI(
     title="Document Intelligence System"
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
