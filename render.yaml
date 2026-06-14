@@ -27,8 +27,8 @@ services:
           name: doc-intel-redis
           property: connectionString
 
-# Redis Broker Instance
-redis:
-  name: doc-intel-redis
-  plan: free
-  ipAllowList: [] # Keep Redis private to the backend container
+  # 3. Redis Broker Instance
+  - type: redis
+    name: doc-intel-redis
+    plan: free
+    ipAllowList: [] # Keep Redis private to the backend container
