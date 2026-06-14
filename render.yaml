@@ -1,0 +1,34 @@
+services:
+  # FastAPI Web Service & Celery Worker combined in a single container
+  # This enables them to share the local 'uploads' filesystem on Render Free Tier
+  - type: web
+    name: doc-intel-backend
+    env: python
+    plan: free
+    rootDir: document-intelligence-system/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A celery_worker.celery_app worker --loglevel=info & uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: EMAIL_ID
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: doc-intel-redis
+          property: connectionString
+
+# Redis Broker Instance
+redis:
+  name: doc-intel-redis
+  plan: free
+  ipAllowList: [] # Keep Redis private to the backend container
