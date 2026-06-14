@@ -6,11 +6,11 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/upload":    "http://localhost:8000",
-      "/documents": "http://localhost:8000",
-      "/ask":       "http://localhost:8000",
-      "/check-email":"http://localhost:8000",
-      "/dashboard": "http://localhost:8000",
+      "/upload":    "https://document-intelligence-system-production.up.railway.app",
+      "/documents": "https://document-intelligence-system-production.up.railway.app",
+      "/ask":       "https://document-intelligence-system-production.up.railway.app",
+      "/check-email":"https://document-intelligence-system-production.up.railway.app",
+      "/dashboard": "https://document-intelligence-system-production.up.railway.app",
     },
   },
 });
